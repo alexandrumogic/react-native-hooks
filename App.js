@@ -5,6 +5,7 @@ export default function App() {
   // const [state, setState] = useState(); 
   const [task, setTask] = useState('Understand the useEffect');
   const [taskList, setTaskList] = useState([]);
+  const [counter, setCounter] = useState(0);
   return (
     <View style={styles.container}>
       {taskList.map((item) => {
@@ -12,6 +13,7 @@ export default function App() {
       })}
       <Text>You have to: {task}</Text>
       <TextInput
+        value={task}
         style={{ borderWidth: 0.5, borderColor: 'gray', width: '50%', marginTop: 10 }}
         onChangeText={(value) => { setTask(value) }}
       />
@@ -19,8 +21,11 @@ export default function App() {
         title={"Add task"}
         onPress={() => {
           setTaskList([...taskList, task])
+          setTask(undefined);
+          setCounter(counter + 1);
         }}
       />
+      <Text>You have added {counter} tasks into the list.</Text>
     </View>
   );
 }
