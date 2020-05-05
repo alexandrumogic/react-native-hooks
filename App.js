@@ -12,6 +12,7 @@ export default function App() {
   const [task, setTask] = useState('Understand the useEffect');
   const [taskList, setTaskList] = useState([]);
   const [counter, setCounter] = useState(0);
+  const [warning, setWarning] = useState(false);
 
   // componentDidMount
   useEffect(() => {
@@ -25,7 +26,18 @@ export default function App() {
   // componentDidUpdate
   useEffect(() => {
     setCounter(counter + 1);
+    setTask('');
   }, [taskList])
+
+  useEffect(() => {
+    if (task.length > 25) {
+      setWarning(true);
+    } else {
+      if (warning) {
+        setWarning(false);
+      }
+    }
+  }, [task])
 
   
   return (
@@ -43,9 +55,9 @@ export default function App() {
         title={"Add task"}
         onPress={() => {
           setTaskList([...taskList, task])
-          setTask(undefined);
         }}
       />
+      {warning && <Text style={{ color: 'orange' }}>You have exceeded the limit</Text>}
       <Text>You have added {counter} tasks into the list.</Text>
     </View>
   );
