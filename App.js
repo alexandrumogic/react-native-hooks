@@ -1,11 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+
+const list = [
+  'Task1',
+  'Task2',
+  'Task3'
+]
 
 export default function App() {
   // const [state, setState] = useState(); 
   const [task, setTask] = useState('Understand the useEffect');
   const [taskList, setTaskList] = useState([]);
   const [counter, setCounter] = useState(0);
+
+  // componentDidMount
+  useEffect(() => {
+    setTaskList(list);
+
+    return () => {
+      // componentWillUnmount
+    }
+  }, [])
+
+  // componentDidUpdate
+  useEffect(() => {
+    setCounter(counter + 1);
+  }, [taskList])
+
+  
   return (
     <View style={styles.container}>
       {taskList.map((item) => {
@@ -22,7 +44,6 @@ export default function App() {
         onPress={() => {
           setTaskList([...taskList, task])
           setTask(undefined);
-          setCounter(counter + 1);
         }}
       />
       <Text>You have added {counter} tasks into the list.</Text>
