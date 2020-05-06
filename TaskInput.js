@@ -6,12 +6,11 @@ export default function TaskInput() {
   // const [state, setState] = useState(); 
   const [task, setTask] = useState('Understand the useEffect');
   const [state, setState] = useContext(TaskListContext);
-  const [counter, setCounter] = useState(0);
   const [warning, setWarning] = useState(false);
 
   // componentDidUpdate
   useEffect(() => {
-    setCounter(counter + 1);
+    setState({...state, counter: state.counter + 1});
     setTask('');
   }, [state.taskList])
 
@@ -39,7 +38,7 @@ export default function TaskInput() {
                 }}
             />
             {warning && <Text style={{ color: 'orange' }}>You have exceeded the limit</Text>}
-            <Text>You have added {counter} tasks into the list.</Text>
+            <Text>You have added {state.counter} tasks into the list.</Text>
         </View>
     )
 }

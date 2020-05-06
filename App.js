@@ -12,7 +12,8 @@ export default function App() {
       'Task1',
       'Task2',
       'Task3'
-    ]
+    ],
+    counter: 0
   })
   
   return (
