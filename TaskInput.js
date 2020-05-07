@@ -40,14 +40,18 @@ export default function TaskInput() {
     }
   }, [task])
 
-  useEffect(onTaskChange, [task])
+  useEffect(onTaskChange, [task]);
+
+  const onChangeText = useCallback((value) => {
+    setTask(value);
+  }, []);
 
     return (
         <View style={{ width: '100%', alignItems: 'center' }}>
             <TextInput
                 value={task}
                 style={{ borderWidth: 0.5, borderColor: 'gray', width: '50%', marginTop: 10 }}
-                onChangeText={(value) => { setTask(value) }}
+                onChangeText={onChangeText}
             />
             <Button
                 title={"Add task"}
