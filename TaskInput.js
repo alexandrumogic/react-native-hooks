@@ -1,6 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
 import { TaskListContext } from './App';
+
+const set = new Set();
 
 export default function TaskInput() {
   // const [state, setState] = useState(); 
@@ -8,13 +10,27 @@ export default function TaskInput() {
   const [state, setState] = useContext(TaskListContext);
   const [warning, setWarning] = useState(false);
 
-  // componentDidUpdate
-  useEffect(() => {
+  const callMeCallback = useCallback(() => {
+
+  }, []);
+
+  function callMe() {
+
+  }
+
+  set.add(callMeCallback);
+  set.add(callMe);
+
+  console.log(set);
+
+  const onTaskListChange = useCallback(() => {
     setState({...state, counter: state.counter + 1});
     setTask('');
-  }, [state.taskList])
+  }, [state])
 
-  useEffect(() => {
+  useEffect(onTaskListChange, [state.taskList])
+
+  const onTaskChange = useCallback(() => {
     if (task.length > 25) {
       setWarning(true);
     } else {
@@ -23,6 +39,8 @@ export default function TaskInput() {
       }
     }
   }, [task])
+
+  useEffect(onTaskChange, [task])
 
     return (
         <View style={{ width: '100%', alignItems: 'center' }}>
