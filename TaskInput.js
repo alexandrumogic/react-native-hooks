@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext, useCallback, useMemo } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
 import { TaskListContext } from './App';
 
@@ -18,10 +18,15 @@ export default function TaskInput() {
 
   }
 
+  const memoValue = useMemo(() => {
+    console.log("memoValue");
+    return Math.pow(state.counter, 3);
+  }, [state.counter]);
+
   set.add(callMeCallback);
   set.add(callMe);
 
-  console.log(set);
+  // console.log(set);
 
   const onTaskListChange = useCallback(() => {
     setState({...state, counter: state.counter + 1});
@@ -31,6 +36,7 @@ export default function TaskInput() {
   useEffect(onTaskListChange, [state.taskList])
 
   const onTaskChange = useCallback(() => {
+    console.log("onTaskChange");
     if (task.length > 25) {
       setWarning(true);
     } else {
@@ -60,7 +66,7 @@ export default function TaskInput() {
                 }}
             />
             {warning && <Text style={{ color: 'orange' }}>You have exceeded the limit</Text>}
-            <Text>You have added {state.counter} tasks into the list.</Text>
+            <Text>You have added {memoValue} tasks into the list.</Text>
         </View>
     )
 }
