@@ -16,7 +16,16 @@ export default function TaskList() {
                 justifyContent: 'space-between',
                 marginHorizontal: 20
               }}>
-                <Text style={{ alignSelf: 'center'}}>{item.description}</Text>
+                <View style={{ flexDirection: 'row' }}>
+                  <MaterialIcons.Button
+                    name={item.done ? "done" : "crop-square"}
+                    color={item.done ? "green" : "blue"}
+                    backgroundColor="transparent"
+                    iconStyle={{ marginRight: 0}}
+                    onPress={() => { dispatch({ type: 'update', payload: item })}}
+                  />
+                  <Text style={{ alignSelf: 'center'}}>{item.description}</Text>
+                </View>
                 <MaterialIcons.Button
                   name="close"
                   color="red"

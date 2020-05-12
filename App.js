@@ -10,7 +10,7 @@ export function reducer(state, action) {
     case 'add':
       return {
         ...state,
-        taskList: [...state.taskList, { id: state.lastId, description: action.payload }],
+        taskList: [...state.taskList, { id: state.lastId, description: action.payload, done: false }],
         counter: state.counter + 1,
         lastId: state.lastId + 1,
       }
@@ -21,21 +21,39 @@ export function reducer(state, action) {
         counter: state.counter - 1,
         lastId: state.lastId + 1,
       }
+
+    case 'update': {
+      const newTaskList = state.taskList.map(
+        task => (
+          task.id === action.payload.id ?
+          { ...action.payload, done: !action.payload.done } :
+          task
+        )
+      );
+
+      return {
+        ...state,
+        taskList: newTaskList
+      }
+    }
   }
 }
 
 const list = [
   {
     id: 0,
-    description: 'Task 1'
+    description: 'Task 1',
+    done: false
   },
   {
     id: 1,
-    description: 'Task 2'
+    description: 'Task 2',
+    done: false
   },
   {
     id: 2,
-    description: 'Task 3'
+    description: 'Task 3',
+    done: false
   },
 ];
 
