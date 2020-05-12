@@ -5,7 +5,7 @@ import TaskInput from './TaskInput';
 import { TaskListContext } from './App';
 
 export default function TaskList() {
-    const [state, setState] = useContext(TaskListContext);
+    const [state, dispatch] = useContext(TaskListContext);
 
     return (
         <View style={styles.container}>
@@ -22,7 +22,7 @@ export default function TaskList() {
                   color="red"
                   backgroundColor="transparent"
                   iconStyle={{ marginRight: 0}}
-                  onPress={() => { }}
+                  onPress={() => { dispatch({ type: 'remove', payload: item }) }}
                 />
               </View>
             )

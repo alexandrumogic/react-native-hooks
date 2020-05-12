@@ -7,7 +7,7 @@ const set = new Set();
 export default function TaskInput() {
   // const [state, setState] = useState(); 
   const [task, setTask] = useState('Understand the useEffect');
-  const [state, setState] = useContext(TaskListContext);
+  const [state, dispatch] = useContext(TaskListContext);
   const [warning, setWarning] = useState(false);
 
   const callMeCallback = useCallback(() => {
@@ -29,7 +29,6 @@ export default function TaskInput() {
   // console.log(set);
 
   const onTaskListChange = useCallback(() => {
-    setState({...state, counter: state.counter + 1});
     setTask('');
   }, [state])
 
@@ -62,11 +61,11 @@ export default function TaskInput() {
             <Button
                 title={"Add task"}
                 onPress={() => {
-                setState({...state, taskList: [...state.taskList, task]})
+                  dispatch({type: 'add', payload: task})
                 }}
             />
             {warning && <Text style={{ color: 'orange' }}>You have exceeded the limit</Text>}
-            <Text>You have added {memoValue} tasks into the list.</Text>
+            <Text>You have added {state.counter} tasks into the list.</Text>
         </View>
     )
 }
