@@ -6,9 +6,25 @@ const set = new Set();
 
 export default function TaskInput() {
   // const [state, setState] = useState(); 
-  const [task, setTask] = useState('Understand the useEffect');
+  const [task, setTask] = useState('');
   const [state, dispatch] = useContext(TaskListContext);
   const [warning, setWarning] = useState(false);
+
+  const intervalRef = useRef();
+
+  const [isTimeActive, setTimeActive] = useState(false);
+  const [miliseconds, setMiliseconds] = useState(0);
+  const [timeRec, setTimeRec] = useState(0);
+
+  useEffect(() => {
+    if (task.length > 0 && !isTimeActive) {
+      setTimeActive(true);
+
+      intervalRef.current = setInterval(() => {
+        setMiliseconds(miliseconds => miliseconds + 100);
+      }, 100);
+    }
+  }, [task, isTimeActive]);
 
   const textInputRef = useRef();
 
@@ -59,10 +75,19 @@ export default function TaskInput() {
                 onPress={() => {
                   dispatch({type: 'add', payload: task})
                   textInputRef.current.clear();
+
+                  setTask('');
+                  clearInterval(intervalRef.current);
+                  setTimeActive(false);
+
+                  setTimeRec(miliseconds);
+                  setMiliseconds(0);
+
                 }}
             />
             {warning && <Text style={{ color: 'orange' }}>You have exceeded the limit</Text>}
             <Text>You have added {state.counter} tasks into the list.</Text>
+            <Text>Last time it took you {timeRec / 1000} seconds to enter a task.</Text>
         </View>
     )
 }
