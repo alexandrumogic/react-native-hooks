@@ -1,16 +1,20 @@
-import React, { useState, useEffect, useContext, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useContext, useCallback, useMemo, useRef, useImperativeHandle, forwardRef } from 'react';
 import { View, TextInput, Button, Text } from 'react-native';
 import { TaskListContext } from './App';
 
 const set = new Set();
 
-export default function TaskInput() {
+function TaskInput(props, ref) {
   // const [state, setState] = useState(); 
   const [task, setTask] = useState('');
   const [state, dispatch] = useContext(TaskListContext);
   const [warning, setWarning] = useState(false);
 
   const intervalRef = useRef();
+
+  const textInputRef = useRef();
+
+  useImperativeHandle(ref, () => textInputRef.current);
 
   const [isTimeActive, setTimeActive] = useState(false);
   const [miliseconds, setMiliseconds] = useState(0);
@@ -25,8 +29,6 @@ export default function TaskInput() {
       }, 100);
     }
   }, [task, isTimeActive]);
-
-  const textInputRef = useRef();
 
   const callMeCallback = useCallback(() => {
 
@@ -91,3 +93,5 @@ export default function TaskInput() {
         </View>
     )
 }
+
+export default forwardRef(TaskInput);

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import TaskInput from './TaskInput';
@@ -6,6 +6,7 @@ import { TaskListContext } from './App';
 
 export default function TaskList() {
     const [state, dispatch] = useContext(TaskListContext);
+    const textInputRef = useRef();
 
     return (
         <View style={styles.container}>
@@ -31,12 +32,15 @@ export default function TaskList() {
                   color="red"
                   backgroundColor="transparent"
                   iconStyle={{ marginRight: 0}}
-                  onPress={() => { dispatch({ type: 'remove', payload: item }) }}
+                  onPress={() => {
+                    dispatch({ type: 'remove', payload: item })
+                    textInputRef.current.clear();
+                  }}
                 />
               </View>
             )
             })}
-            <TaskInput />
+            <TaskInput ref={textInputRef}/>
       </View>
     )
 }
